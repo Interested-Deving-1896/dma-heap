@@ -6,7 +6,7 @@ use std::{
 use rustix::{
     fs::OFlags,
     io::Errno,
-    ioctl::{Updater, ioctl, opcode},
+    ioctl::{Opcode, Updater, ioctl, opcode},
 };
 
 const DMA_HEAP_IOC_MAGIC: u8 = b'H';
@@ -21,7 +21,7 @@ struct dma_heap_allocation_data {
     heap_flags: u64,
 }
 
-const DMA_HEAP_IOC_ALLOC_OPCODE: u32 =
+const DMA_HEAP_IOC_ALLOC_OPCODE: Opcode =
     opcode::read_write::<dma_heap_allocation_data>(DMA_HEAP_IOC_MAGIC, DMA_HEAP_IOC_ALLOC);
 
 fn dma_heap_alloc_ioctl(fd: BorrowedFd<'_>, data: &mut dma_heap_allocation_data) -> io::Result<()> {
